@@ -1437,10 +1437,22 @@ export class MarkerArea {
       this.notesArea === undefined &&
       (ev.key === 'Delete' || ev.key === 'Backspace')
     ) {
-      this.removeMarker(this.currentMarker);
-      this.setCurrentMarker();
-      this.markerImage.style.cursor = 'default';
-      this.addUndoStep();
+      let cancel = false;
+
+      this.eventListeners['markerbeforedelete_key'].forEach(listener => {
+        const ev = new MarkerEvent(this, this.currentMarker, true);
+        listener(ev);
+        if (ev.defaultPrevented) {
+          cancel = true;
+        }
+      });
+
+      if (!cancel) {
+        this.removeMarker(this.currentMarker);
+        this.setCurrentMarker();
+        this.markerImage.style.cursor = 'default';
+        this.addUndoStep();
+      }
     }
   }
 

@@ -102,6 +102,10 @@ export interface IEventListenerRepository {
    */
   markerbeforedelete: MarkerEventHandler[];
   /**
+   * Event handlers for the `markerbeforedelete_key` event.
+   */
+  markerbeforedelete_key: MarkerEventHandler[];
+  /**
    * Event handlers for the `markerdelete` event.
    */
   markerdelete: MarkerEventHandler[];
@@ -121,6 +125,8 @@ export type EventHandler<
   : T extends 'markercreate'
   ? MarkerEventHandler
   : T extends 'markerbeforedelete'
+  ? MarkerEventHandler
+  : T extends 'markerbeforedelete_key'
   ? MarkerEventHandler
   : T extends 'markerdelete'
   ? MarkerEventHandler
@@ -172,6 +178,10 @@ export class EventListenerRepository implements IEventListenerRepository {
    * Event handlers for the `markerbeforedelete` event.
    */
   markerbeforedelete: MarkerEventHandler[] = [];
+  /**
+   * Event handlers for the `markerbeforedelete_key` event.
+   */
+  markerbeforedelete_key: MarkerEventHandler[] = [];
   /**
    * Event handlers for the `markerdelete` event.
    */
